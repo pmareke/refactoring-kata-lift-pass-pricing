@@ -9,6 +9,11 @@ help:  ## Show this help.
 test: ## Run tests
 	PYTHONPATH=. poetry run pytest test -ra
 
+.PHONY: test-coverage
+test-coverage: ## Run tests coverage
+	PYTHONPATH=. poetry run coverage run --branch -m pytest test
+	poetry run coverage html
+
 .PHONY: format
 format: ## Run format
 	poetry run black src test
