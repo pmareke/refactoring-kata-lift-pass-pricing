@@ -7,7 +7,7 @@ help:  ## Show this help.
 
 .PHONY: test
 test: ## Run tests
-	poetry run pytest test -ra
+	PYTHONPATH=. poetry run pytest test -ra
 
 .PHONY: format
 format: ## Run format
