@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "refactoring-kata-lift-pass-pricing"
+version = "0.1.0"
+description = "A refactoring kata where you'll practice disentangling business logic from frameworks and SQL"
+authors = ["Pedro López Mareque <pedro.lopez.mareque@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+flask = "^3.0.2"
+requests = "^2.31.0"
+pyodbc = "^5.1.0"
+pymysql = "^1.1.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.2"
+expects = "^0.9.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
