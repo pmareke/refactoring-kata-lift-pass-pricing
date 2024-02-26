@@ -33,7 +33,7 @@ If you have Docker installed the easiest thing is to use this script, that will 
 
 Inject the data with
 
-    mysql -u root -p mysql < ./database/initDatabase.sql
+     mysql -h 0.0.0.0 -P 3306 -u root -p < ./database/initDatabase.sql
 
 Then follow the Readme in there.
 
