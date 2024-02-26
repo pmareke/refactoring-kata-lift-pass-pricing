@@ -2,10 +2,9 @@ import multiprocessing
 
 import pytest
 import requests
-from datetime import datetime
 import time
 
-from prices import app
+from src.prices import app
 
 TEST_PORT = 3006
 
@@ -20,13 +19,13 @@ def wait_for_server_to_start(server_url):
         try:
             requests.get(server_url)
             started = True
-        except Exception as e:
+        except Exception:
             time.sleep(0.2)
 
 
 @pytest.fixture(autouse=True, scope="session")
 def lift_pass_pricing_app():
-    """ starts the lift pass pricing flask app running on localhost """
+    """starts the lift pass pricing flask app running on localhost"""
     p = multiprocessing.Process(target=server, args=(TEST_PORT,))
     p.start()
     server_url = f"http://127.0.0.1:{TEST_PORT}"
@@ -36,5 +35,5 @@ def lift_pass_pricing_app():
 
 
 def test_something(lift_pass_pricing_app):
-    response = requests.get(lift_pass_pricing_app + "/prices", params={'type': '1jour'})
-    assert response.json() == {'cost': 35}
+    response = requests.get(lift_pass_pricing_app + "/prices", params={"type": "1jour"})
+    assert response.json() == {"cost": 35}

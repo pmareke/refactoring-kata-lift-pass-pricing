@@ -19,6 +19,7 @@ def create_lift_pass_db_connection(connection_options):
 
 def try_to_connect_with_sqlite3(connection_options):
     import sqlite3
+
     connection = sqlite3.connect("lift_pass.db")
     create_statements = [
         """CREATE TABLE IF NOT EXISTS base_price (
@@ -50,15 +51,18 @@ def try_to_connect_with_pymysql(connection_options):
         The pymysql.cursors.Cursor class very nearly works the same as the odbc equivalent. Unfortunately it doesn't
         understand the '?' in a SQL statement as an argument placeholder, and instead uses '%s'. This wrapper fixes that.
         """
+
         def mogrify(self, query: str, args: object = ...) -> str:
-            query = query.replace('?', '%s')
+            query = query.replace("?", "%s")
             return super().mogrify(query, args)
 
-    connection = pymysql.connect(host=connection_options["host"],
-                                 user=connection_options["user"],
-                                 password=connection_options["password"],
-                                 database=connection_options["database"],
-                                 cursorclass=PyMySQLCursorWrapper)
+    connection = pymysql.connect(
+        host=connection_options["host"],
+        user=connection_options["user"],
+        password=connection_options["password"],
+        database=connection_options["database"],
+        cursorclass=PyMySQLCursorWrapper,
+    )
 
     return connection
 
@@ -67,6 +71,7 @@ def try_to_connect_with_odbc(connection_options):
     driver = get_mariadb_driver()
     if driver:
         import pyodbc
+
         connection_string = make_connection_string_template(driver) % (
             connection_options["host"],
             connection_options["user"],
@@ -79,6 +84,7 @@ def try_to_connect_with_odbc(connection_options):
 
 def get_mariadb_driver():
     import pyodbc
+
     drivers = []
     for driver in pyodbc.drivers():
         if driver.startswith("MySQL") or driver.startswith("MariaDB"):
@@ -91,4 +97,4 @@ def get_mariadb_driver():
 
 
 def make_connection_string_template(driver):
-    return 'DRIVER={' + driver + '};SERVER=%s;USER=%s;OPTION=3;DATABASE=%s;PASSWORD=%s'
+    return "DRIVER={" + driver + "};SERVER=%s;USER=%s;OPTION=3;DATABASE=%s;PASSWORD=%s"

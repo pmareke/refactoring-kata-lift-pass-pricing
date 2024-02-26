@@ -7,4 +7,12 @@ help:  ## Show this help.
 
 .PHONY: test
 test: ## Run tests
-	poetry run pytest tests -ra
+	poetry run pytest test -ra
+
+.PHONY: format
+format: ## Run format
+	poetry run black src test
+
+.PHONY: check-style
+check-style: ## Check style
+	poetry run mypy .
