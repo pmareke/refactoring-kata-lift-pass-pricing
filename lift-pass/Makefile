@@ -13,6 +13,10 @@ test: ## Run tests
 format: ## Run format
 	poetry run black src test
 
+.PHONY: check-format
+check-format: ## Check format
+	poetry run black --check src test
+
 .PHONY: check-style
 check-style: ## Check style
 	poetry run mypy .
