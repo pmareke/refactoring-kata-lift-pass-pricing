@@ -1,5 +1,3 @@
-import pytest
-
 from src.prices import app
 from expects import expect, equal
 

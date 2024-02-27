@@ -1,5 +1,3 @@
-import pytest
-
 from src.prices import app
 from expects import expect, equal
 
@@ -18,12 +16,12 @@ class TestNightPricesAcceptance:
 
         expect(response.json).to(equal({"cost": 0}))
 
-    def test_nights_with_age_above_6(self) -> None:
+    def test_nights_with_age_above_6_has_not_discount(self) -> None:
         response = self.client.get("/prices", query_string={"type": "night", "age": 40})
 
         expect(response.json).to(equal({"cost": 19}))
 
-    def test_nights_with_age_above_64(self) -> None:
+    def test_nights_with_age_above_64_has_40_percentage_discount(self) -> None:
         response = self.client.get("/prices", query_string={"type": "night", "age": 65})
 
         expect(response.json).to(equal({"cost": 8}))
