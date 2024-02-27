@@ -3,8 +3,8 @@ from flask import Flask
 from src.delivery.api.get_price_controller import GetPriceController
 from src.delivery.api.update_prices_controller import UpdatePricesController
 from src.infrastructure.sql_trips_repository import SqlTripsRepository
-from src.use_cases.get_price_query_handler import GetPriceQueryHandler
-from src.use_cases.update_prices_command import UpdatePricesCommandHandler
+from src.use_cases.queries.get_price_query import GetPriceQueryHandler
+from src.use_cases.commands.update_prices_command import UpdatePricesCommandHandler
 
 app = Flask("lift-pass-pricing")
 trips_repository = SqlTripsRepository()

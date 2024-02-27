@@ -1,7 +1,6 @@
 from flask import request
-from pymysql.cursors import Cursor
 
-from src.use_cases.update_prices_command import (
+from src.use_cases.commands.update_prices_command import (
     UpdatePricesCommand,
     UpdatePricesCommandHandler,
 )

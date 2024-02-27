@@ -1,16 +1,10 @@
 from datetime import datetime
 
-from doublex import Spy, Stub, Mimic
-from doublex_expects import have_been_called_with
+from doublex import Stub, Mimic
 from expects import expect, equal
-from pymysql.cursors import Cursor
 
 from src.infrastructure.sql_trips_repository import SqlTripsRepository
-from src.use_cases.get_price_query_handler import GetPriceQuery, GetPriceQueryHandler
-from src.use_cases.update_prices_command import (
-    UpdatePricesCommand,
-    UpdatePricesCommandHandler,
-)
+from src.use_cases.queries.get_price_query import GetPriceQuery, GetPriceQueryHandler
 
 
 class TestGetPriceQueryHandler:

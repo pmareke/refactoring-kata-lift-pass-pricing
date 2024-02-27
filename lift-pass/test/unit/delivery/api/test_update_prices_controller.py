@@ -1,12 +1,10 @@
 from doublex import Mimic, Spy
-from doublex_expects import have_been_called_with, have_been_called
-from expects import expect, be_true
-from pymysql.cursors import Cursor
+from doublex_expects import have_been_called
+from expects import expect
 
 from src.delivery.api.update_prices_controller import UpdatePricesController
 from src.main import app
-from src.use_cases.update_prices_command import (
-    UpdatePricesCommand,
+from src.use_cases.commands.update_prices_command import (
     UpdatePricesCommandHandler,
 )
 

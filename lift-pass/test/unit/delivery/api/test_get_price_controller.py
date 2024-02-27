@@ -4,7 +4,7 @@ from expects import expect
 
 from src.delivery.api.get_price_controller import GetPriceController
 from src.main import app
-from src.use_cases.get_price_query_handler import GetPriceQueryHandler
+from src.use_cases.queries.get_price_query import GetPriceQueryHandler
 
 
 class TestGetPriceController:

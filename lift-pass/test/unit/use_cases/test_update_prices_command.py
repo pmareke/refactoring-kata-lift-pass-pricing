@@ -3,7 +3,7 @@ from doublex_expects import have_been_called_with
 from expects import expect
 
 from src.infrastructure.sql_trips_repository import SqlTripsRepository
-from src.use_cases.update_prices_command import (
+from src.use_cases.commands.update_prices_command import (
     UpdatePricesCommand,
     UpdatePricesCommandHandler,
 )

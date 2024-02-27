@@ -1,6 +1,6 @@
 from flask import request
 
-from src.use_cases.get_price_query_handler import GetPriceQuery, GetPriceQueryHandler
+from src.use_cases.queries.get_price_query import GetPriceQuery, GetPriceQueryHandler
 
 
 class GetPriceController:
