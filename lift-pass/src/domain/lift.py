@@ -23,7 +23,7 @@ class Lift:
 
     def calculate_cost(self, lifts_repository: LiftsRepository) -> int:
         cost = lifts_repository.get_price_for_lift(self.type.value)
-g
+
         if self.age and self.age < 6:
             return 0
 
