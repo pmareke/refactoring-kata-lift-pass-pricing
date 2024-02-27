@@ -22,13 +22,9 @@ connection = create_lift_pass_db_connection(connection_options)
 
 @app.put("/prices")
 def update_prices():
-    return _update_prices(connection)
-
-
-def _update_prices(conn):
     lift_pass_cost = request.args["cost"]
     lift_pass_type = request.args["type"]
-    cursor = conn.cursor()
+    cursor = connection.cursor()
     cursor.execute(
         "INSERT INTO `base_price` (type, cost) VALUES (?, ?) "
         + "ON DUPLICATE KEY UPDATE cost = ?",
