@@ -16,4 +16,5 @@ class GetLiftPriceController:
         lift = Lift(LyftType(lift_type), age, date)
         query = GetLiftPriceQuery(lift)
 
-        return self.query_handler.execute(query)
+        cost = self.query_handler.execute(query)
+        return {"cost": cost}

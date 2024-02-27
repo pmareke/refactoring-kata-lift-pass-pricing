@@ -4,6 +4,7 @@ from src.domain.lifts_repository import LiftsRepository
 
 
 class SqlLiftsRepository(LiftsRepository):
+
     def __init__(self) -> None:
         connection = self._create_lift_pass_db_connection()
         self.cursor = connection.cursor()
@@ -12,9 +13,13 @@ class SqlLiftsRepository(LiftsRepository):
         self.cursor.execute(f"SELECT cost FROM base_price WHERE type = ? ", trip_type)
         return int(self.cursor.fetchone()[0])
 
-    def find_all_holidays(self) -> list:
-        self.cursor.execute("SELECT * FROM holidays")
-        return [pair for pair in self.cursor.fetchall()]
+    def is_holiday(self, date: str | None) -> bool:
+        if date is None:
+            return False
+        holiday = self.cursor.execute(
+            f"SELECT * FROM holidays WHERE holiday = ? ", date
+        )
+        return bool(holiday > 0)
 
     def add_price(self, trip_type: str, cost: int) -> None:
         self.cursor.execute(

@@ -7,7 +7,7 @@ class LiftsRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def find_all_holidays(self) -> list:
+    def is_holiday(self, date: str | None) -> bool:
         raise NotImplementedError
 
     @abstractmethod
