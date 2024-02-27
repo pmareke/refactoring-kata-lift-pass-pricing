@@ -23,32 +23,28 @@ class Lift:
 
     def calculate_cost(self, lifts_repository: LiftsRepository) -> int:
         cost = lifts_repository.get_price_for_lift(self.type.value)
-
+g
         if self.age and self.age < 6:
             return 0
 
         if self.type.is_night:
-            return self._calculate_cost_for_one_lift_night(cost)
+            return self._calculate_cost_for_one_night_lift(cost)
 
-        return self._calculate_cost_for_non_lift_nights(cost, lifts_repository)
+        return self._calculate_cost_for_non_night_lifts(cost, lifts_repository)
 
-    def _calculate_cost_for_one_lift_night(self, cost: int) -> int:
+    def _calculate_cost_for_one_night_lift(self, cost: int) -> int:
         if not self.age:
             return 0
         if 6 < self.age and self.age > 64:
             return math.ceil(cost * 0.4)
         return cost
 
-    def _calculate_cost_for_non_lift_nights(
+    def _calculate_cost_for_non_night_lifts(
         self, cost: int, lifts_repository: LiftsRepository
     ) -> int:
         reduction = 0
         is_holiday = lifts_repository.is_holiday(self.date)
-        if (
-            not is_holiday
-            and self.date
-            and datetime.fromisoformat(self.date).weekday() == 0
-        ):
+        if not is_holiday and self.date and self._is_monday(self.date):
             reduction = 35
 
         # TODO: apply reduction for others
@@ -65,3 +61,7 @@ class Lift:
 
         new_cost = cost * (1 - reduction / 100)
         return math.ceil(new_cost)
+
+    @staticmethod
+    def _is_monday(date: str) -> bool:
+        return datetime.fromisoformat(date).weekday() == 0
