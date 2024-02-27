@@ -8,7 +8,7 @@ from src.domain.lifts_repository import LiftsRepository
 @dataclass
 class UpdateLiftsPricesCommand(Command):
     cost: int
-    trip_type: LyftType
+    lift_type: LyftType
 
 
 class UpdateLiftsPricesCommandHandler(CommandHandler):
@@ -16,4 +16,4 @@ class UpdateLiftsPricesCommandHandler(CommandHandler):
         self.lifts_repository = lifts_repository
 
     def execute(self, command: UpdateLiftsPricesCommand) -> None:
-        self.lifts_repository.add_price(command.trip_type, command.cost)
+        self.lifts_repository.add_price(command.lift_type, command.cost)

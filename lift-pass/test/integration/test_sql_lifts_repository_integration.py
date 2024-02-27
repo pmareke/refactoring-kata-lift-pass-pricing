@@ -9,16 +9,16 @@ from src.infrastructure.sql_lifts_repository import SqlLiftsRepository
 
 class TestSqlLiftsRepositoryIntegration:
     def test_get_night_price(self) -> None:
-        trips_repository = SqlLiftsRepository()
+        lifts_repository = SqlLiftsRepository()
 
-        night_price = trips_repository.get_price_for_lift(LyftType.NIGHT)
+        night_price = lifts_repository.get_price_for_lift(LyftType.NIGHT)
 
         expect(night_price).to(equal(19))
 
     def test_get_1jour_price(self) -> None:
-        trips_repository = SqlLiftsRepository()
+        lifts_repository = SqlLiftsRepository()
 
-        night_price = trips_repository.get_price_for_lift(LyftType.JOUR)
+        night_price = lifts_repository.get_price_for_lift(LyftType.JOUR)
 
         expect(night_price).to(equal(35))
 
