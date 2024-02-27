@@ -122,6 +122,7 @@ class TestGetPriceQueryHandler:
         response = get_price_query_handler.execute(get_price_query)
 
         expect(response).to(equal({"cost": cost}))
+
     def test_people_above_64_has_25_percent_discount(self) -> None:
         trip_type = "1jour"
         age = 65
