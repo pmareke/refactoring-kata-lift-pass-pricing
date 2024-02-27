@@ -1,4 +1,4 @@
-from src.prices import app
+from src.main import app
 from expects import expect, equal
 
 

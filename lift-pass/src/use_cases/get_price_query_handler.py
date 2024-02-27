@@ -4,6 +4,8 @@ from datetime import datetime
 from dataclasses import dataclass
 from pymysql.cursors import Cursor
 
+from src.domain.trips_repository import TripsRepository
+
 
 @dataclass
 class GetPriceQuery:
@@ -13,12 +15,12 @@ class GetPriceQuery:
 
 
 class GetPriceQueryHandler:
-    def __init__(self, cursor: Cursor) -> None:
-        self.cursor = cursor
+    def __init__(self, trips_repository: TripsRepository) -> None:
+        self.trips_repository = trips_repository
 
     def execute(self, query: GetPriceQuery) -> dict:
-        row = self._fetch_one_trip(query.trip_type)
-        result = {"cost": row[0]}
+        cost = self.trips_repository.get_price_for_type(query.trip_type)
+        result = {"cost": cost}
 
         if query.age and query.age < 6:
             return {"cost": 0}
@@ -27,10 +29,6 @@ class GetPriceQueryHandler:
             return self._calculate_cost_for_night(query, result)
 
         return self._calculate_cost_for_non_nights(query, result)
-
-    def _fetch_one_trip(self, trip_type: str):
-        self.cursor.execute(f"SELECT cost FROM base_price WHERE type = ? ", trip_type)
-        return self.cursor.fetchone()
 
     @staticmethod
     def _calculate_cost_for_night(query: GetPriceQuery, result: dict) -> dict:
@@ -46,8 +44,7 @@ class GetPriceQueryHandler:
         response = {"cost": 0}
         is_holiday = False
         reduction = 0
-        self.cursor.execute("SELECT * FROM holidays")
-        holidays = self.cursor.fetchall()
+        holidays = self.trips_repository.find_all_holidays()
         for holiday in holidays:
             holiday = holiday[0]
             if not query.date:

@@ -1,7 +1,8 @@
-from doublex import Spy
+from doublex import Spy, Mimic
 from doublex_expects import have_been_called_with
 from expects import expect
 
+from src.infrastructure.sql_trips_repository import SqlTripsRepository
 from src.use_cases.update_prices_command import (
     UpdatePricesCommand,
     UpdatePricesCommandHandler,
@@ -13,14 +14,9 @@ class TestUpdatePricesCommandHandler:
         trip_type = "night"
         cost = 100
         update_prices_command = UpdatePricesCommand(cost, trip_type)
-        cursor = Spy()
-        update_prices_command_handler = UpdatePricesCommandHandler(cursor)
+        repository = Mimic(Spy, SqlTripsRepository)
+        update_prices_command_handler = UpdatePricesCommandHandler(repository)
 
         update_prices_command_handler.execute(update_prices_command)
 
-        expect(cursor.execute).to(
-            have_been_called_with(
-                "INSERT INTO `base_price` (type, cost) VALUES (?, ?) ON DUPLICATE KEY UPDATE cost = ?",
-                (trip_type, cost, cost),
-            )
-        )
+        expect(repository.add_price).to(have_been_called_with(trip_type, cost))

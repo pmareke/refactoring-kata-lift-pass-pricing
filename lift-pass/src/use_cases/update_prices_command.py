@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from pymysql.cursors import Cursor
+from src.domain.trips_repository import TripsRepository
 
 
 @dataclass
@@ -10,11 +10,8 @@ class UpdatePricesCommand:
 
 
 class UpdatePricesCommandHandler:
-    def __init__(self, cursor: Cursor) -> None:
-        self.cursor = cursor
+    def __init__(self, trips_repository: TripsRepository) -> None:
+        self.trips_repository = trips_repository
 
     def execute(self, command: UpdatePricesCommand) -> None:
-        self.cursor.execute(
-            "INSERT INTO `base_price` (type, cost) VALUES (?, ?) ON DUPLICATE KEY UPDATE cost = ?",
-            (command.trip_type, command.cost, command.cost),
-        )
+        self.trips_repository.add_price(command.trip_type, command.cost)

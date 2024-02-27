@@ -5,6 +5,7 @@ from doublex_expects import have_been_called_with
 from expects import expect, equal
 from pymysql.cursors import Cursor
 
+from src.infrastructure.sql_trips_repository import SqlTripsRepository
 from src.use_cases.get_price_query_handler import GetPriceQuery, GetPriceQueryHandler
 from src.use_cases.update_prices_command import (
     UpdatePricesCommand,
@@ -17,10 +18,10 @@ class TestGetPriceQueryHandler:
         cost = 100
         trip_type = "night"
         get_price_query = GetPriceQuery(trip_type)
-        with Mimic(Stub, Cursor) as cursor:
-            cursor.fetchone().returns([cost])
-            cursor.fetchall().returns([])
-        get_price_query_handler = GetPriceQueryHandler(cursor)
+        with Mimic(Stub, SqlTripsRepository) as repository:
+            repository.get_price_for_type(trip_type).returns(cost)
+            repository.find_all_holidays().returns([])
+        get_price_query_handler = GetPriceQueryHandler(repository)
 
         response = get_price_query_handler.execute(get_price_query)
 
@@ -31,10 +32,10 @@ class TestGetPriceQueryHandler:
         age = 5
         cost = 100
         get_price_query = GetPriceQuery(trip_type, age)
-        with Mimic(Stub, Cursor) as cursor:
-            cursor.fetchone().returns([cost])
-            cursor.fetchall().returns([])
-        get_price_query_handler = GetPriceQueryHandler(cursor)
+        with Mimic(Stub, SqlTripsRepository) as repository:
+            repository.get_price_for_type(trip_type).returns(cost)
+            repository.find_all_holidays().returns([])
+        get_price_query_handler = GetPriceQueryHandler(repository)
 
         response = get_price_query_handler.execute(get_price_query)
 
@@ -45,10 +46,10 @@ class TestGetPriceQueryHandler:
         age = 40
         cost = 100
         get_price_query = GetPriceQuery(trip_type, age)
-        with Mimic(Stub, Cursor) as cursor:
-            cursor.fetchone().returns([cost])
-            cursor.fetchall().returns([])
-        get_price_query_handler = GetPriceQueryHandler(cursor)
+        with Mimic(Stub, SqlTripsRepository) as repository:
+            repository.get_price_for_type(trip_type).returns(cost)
+            repository.find_all_holidays().returns([])
+        get_price_query_handler = GetPriceQueryHandler(repository)
 
         response = get_price_query_handler.execute(get_price_query)
 
@@ -59,10 +60,10 @@ class TestGetPriceQueryHandler:
         age = 65
         cost = 100
         get_price_query = GetPriceQuery(trip_type, age)
-        with Mimic(Stub, Cursor) as cursor:
-            cursor.fetchone().returns([cost])
-            cursor.fetchall().returns([])
-        get_price_query_handler = GetPriceQueryHandler(cursor)
+        with Mimic(Stub, SqlTripsRepository) as repository:
+            repository.get_price_for_type(trip_type).returns(cost)
+            repository.find_all_holidays().returns([])
+        get_price_query_handler = GetPriceQueryHandler(repository)
 
         response = get_price_query_handler.execute(get_price_query)
 
@@ -72,10 +73,10 @@ class TestGetPriceQueryHandler:
         cost = 100
         trip_type = "1jour"
         get_price_query = GetPriceQuery(trip_type)
-        with Mimic(Stub, Cursor) as cursor:
-            cursor.fetchone().returns([cost])
-            cursor.fetchall().returns([])
-        get_price_query_handler = GetPriceQueryHandler(cursor)
+        with Mimic(Stub, SqlTripsRepository) as repository:
+            repository.get_price_for_type(trip_type).returns(cost)
+            repository.find_all_holidays().returns([])
+        get_price_query_handler = GetPriceQueryHandler(repository)
 
         response = get_price_query_handler.execute(get_price_query)
 
@@ -86,10 +87,10 @@ class TestGetPriceQueryHandler:
         age = 5
         cost = 100
         get_price_query = GetPriceQuery(trip_type, age)
-        with Mimic(Stub, Cursor) as cursor:
-            cursor.fetchone().returns([cost])
-            cursor.fetchall().returns([])
-        get_price_query_handler = GetPriceQueryHandler(cursor)
+        with Mimic(Stub, SqlTripsRepository) as repository:
+            repository.get_price_for_type(trip_type).returns(cost)
+            repository.find_all_holidays().returns([])
+        get_price_query_handler = GetPriceQueryHandler(repository)
 
         response = get_price_query_handler.execute(get_price_query)
 
@@ -100,10 +101,10 @@ class TestGetPriceQueryHandler:
         age = 14
         cost = 100
         get_price_query = GetPriceQuery(trip_type, age)
-        with Mimic(Stub, Cursor) as cursor:
-            cursor.fetchone().returns([cost])
-            cursor.fetchall().returns([])
-        get_price_query_handler = GetPriceQueryHandler(cursor)
+        with Mimic(Stub, SqlTripsRepository) as repository:
+            repository.get_price_for_type(trip_type).returns(cost)
+            repository.find_all_holidays().returns([])
+        get_price_query_handler = GetPriceQueryHandler(repository)
 
         response = get_price_query_handler.execute(get_price_query)
 
@@ -114,10 +115,10 @@ class TestGetPriceQueryHandler:
         age = 50
         cost = 100
         get_price_query = GetPriceQuery(trip_type, age)
-        with Mimic(Stub, Cursor) as cursor:
-            cursor.fetchone().returns([cost])
-            cursor.fetchall().returns([])
-        get_price_query_handler = GetPriceQueryHandler(cursor)
+        with Mimic(Stub, SqlTripsRepository) as repository:
+            repository.get_price_for_type(trip_type).returns(cost)
+            repository.find_all_holidays().returns([])
+        get_price_query_handler = GetPriceQueryHandler(repository)
 
         response = get_price_query_handler.execute(get_price_query)
 
@@ -128,10 +129,10 @@ class TestGetPriceQueryHandler:
         age = 65
         cost = 100
         get_price_query = GetPriceQuery(trip_type, age)
-        with Mimic(Stub, Cursor) as cursor:
-            cursor.fetchone().returns([cost])
-            cursor.fetchall().returns([])
-        get_price_query_handler = GetPriceQueryHandler(cursor)
+        with Mimic(Stub, SqlTripsRepository) as repository:
+            repository.get_price_for_type(trip_type).returns(cost)
+            repository.find_all_holidays().returns([])
+        get_price_query_handler = GetPriceQueryHandler(repository)
 
         response = get_price_query_handler.execute(get_price_query)
 
@@ -142,10 +143,12 @@ class TestGetPriceQueryHandler:
         date = "2019-02-18"
         cost = 100
         get_price_query = GetPriceQuery(trip_type, date=date)
-        with Mimic(Stub, Cursor) as cursor:
-            cursor.fetchone().returns([cost])
-            cursor.fetchall().returns([(datetime.fromisoformat(date), "1jour")])
-        get_price_query_handler = GetPriceQueryHandler(cursor)
+        with Mimic(Stub, SqlTripsRepository) as repository:
+            repository.get_price_for_type(trip_type).returns(cost)
+            repository.find_all_holidays().returns(
+                [(datetime.fromisoformat(date), "1jour")]
+            )
+        get_price_query_handler = GetPriceQueryHandler(repository)
 
         response = get_price_query_handler.execute(get_price_query)
 
@@ -156,10 +159,10 @@ class TestGetPriceQueryHandler:
         date = "2024-02-26"
         cost = 100
         get_price_query = GetPriceQuery(trip_type, date=date)
-        with Mimic(Stub, Cursor) as cursor:
-            cursor.fetchone().returns([cost])
-            cursor.fetchall().returns([])
-        get_price_query_handler = GetPriceQueryHandler(cursor)
+        with Mimic(Stub, SqlTripsRepository) as repository:
+            repository.get_price_for_type(trip_type).returns(cost)
+            repository.find_all_holidays().returns([])
+        get_price_query_handler = GetPriceQueryHandler(repository)
 
         response = get_price_query_handler.execute(get_price_query)
 

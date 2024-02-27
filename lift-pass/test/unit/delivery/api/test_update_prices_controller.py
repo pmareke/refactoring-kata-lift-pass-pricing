@@ -4,7 +4,7 @@ from expects import expect, be_true
 from pymysql.cursors import Cursor
 
 from src.delivery.api.update_prices_controller import UpdatePricesController
-from src.prices import app
+from src.main import app
 from src.use_cases.update_prices_command import (
     UpdatePricesCommand,
     UpdatePricesCommandHandler,

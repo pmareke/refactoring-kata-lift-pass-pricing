@@ -1,7 +1,9 @@
 from pymysql import Connection
 
+from src.domain.trips_repository import TripsRepository
 
-class SqlTripsRepository:
+
+class SqlTripsRepository(TripsRepository):
     def __init__(self):
         connection = self._create_lift_pass_db_connection()
         self.cursor = connection.cursor()
@@ -13,6 +15,12 @@ class SqlTripsRepository:
     def find_all_holidays(self) -> list:
         self.cursor.execute("SELECT * FROM holidays")
         return [pair for pair in self.cursor.fetchall()]
+
+    def add_price(self, trip_type: str, cost: int) -> None:
+        self.cursor.execute(
+            "INSERT INTO `base_price` (type, cost) VALUES (?, ?) ON DUPLICATE KEY UPDATE cost = ?",
+            (trip_type, cost, cost),
+        )
 
     def _create_lift_pass_db_connection(self) -> Connection:
         try:
