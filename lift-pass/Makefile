@@ -22,6 +22,6 @@ format: ## Run format
 check-format: ## Check format
 	poetry run black --check src test
 
-.PHONY: check-style
-check-style: ## Check style
-	poetry run mypy .
+.PHONY: check-typing
+check-typing: ## Check typing
+	poetry run mypy src test

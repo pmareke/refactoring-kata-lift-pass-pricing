@@ -4,17 +4,18 @@ from datetime import datetime
 from dataclasses import dataclass
 from pymysql.cursors import Cursor
 
+from src.domain.query import QueryHandler, Query
 from src.domain.trips_repository import TripsRepository
 
 
 @dataclass
-class GetPriceQuery:
+class GetPriceQuery(Query):
     trip_type: str
     age: int | None = None
     date: str | None = None
 
 
-class GetPriceQueryHandler:
+class GetPriceQueryHandler(QueryHandler):
     def __init__(self, trips_repository: TripsRepository) -> None:
         self.trips_repository = trips_repository
 

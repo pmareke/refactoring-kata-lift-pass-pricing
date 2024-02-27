@@ -1,10 +1,11 @@
 from flask import request
 
-from src.use_cases.queries.get_price_query import GetPriceQuery, GetPriceQueryHandler
+from src.domain.query import QueryHandler
+from src.use_cases.queries.get_price_query import GetPriceQuery
 
 
 class GetPriceController:
-    def __init__(self, query_handler: GetPriceQueryHandler) -> None:
+    def __init__(self, query_handler: QueryHandler) -> None:
         self.query_handler = query_handler
 
     def get_price(self) -> dict:

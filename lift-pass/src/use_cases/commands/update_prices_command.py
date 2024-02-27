@@ -1,15 +1,16 @@
 from dataclasses import dataclass
 
+from src.domain.command import Command, CommandHandler
 from src.domain.trips_repository import TripsRepository
 
 
 @dataclass
-class UpdatePricesCommand:
+class UpdatePricesCommand(Command):
     cost: int
     trip_type: str
 
 
-class UpdatePricesCommandHandler:
+class UpdatePricesCommandHandler(CommandHandler):
     def __init__(self, trips_repository: TripsRepository) -> None:
         self.trips_repository = trips_repository
 

@@ -4,13 +4,13 @@ from src.domain.trips_repository import TripsRepository
 
 
 class SqlTripsRepository(TripsRepository):
-    def __init__(self):
+    def __init__(self) -> None:
         connection = self._create_lift_pass_db_connection()
         self.cursor = connection.cursor()
 
     def get_price_for_type(self, trip_type: str) -> int:
         self.cursor.execute(f"SELECT cost FROM base_price WHERE type = ? ", trip_type)
-        return self.cursor.fetchone()[0]
+        return int(self.cursor.fetchone()[0])
 
     def find_all_holidays(self) -> list:
         self.cursor.execute("SELECT * FROM holidays")
@@ -30,7 +30,7 @@ class SqlTripsRepository(TripsRepository):
         except Exception:
             print(f"unable to connect to db with {self._try_to_connect_with_pymysql}")
 
-    def _try_to_connect_with_pymysql(self):
+    def _try_to_connect_with_pymysql(self) -> Connection:
         import pymysql.cursors
 
         class PyMySQLCursorWrapper(pymysql.cursors.Cursor):
@@ -41,7 +41,7 @@ class SqlTripsRepository(TripsRepository):
 
             def mogrify(self, query: str, args: object = ...) -> str:
                 query = query.replace("?", "%s")
-                return super().mogrify(query, args)
+                return str(super().mogrify(query, args))
 
         return pymysql.connect(
             host="localhost",

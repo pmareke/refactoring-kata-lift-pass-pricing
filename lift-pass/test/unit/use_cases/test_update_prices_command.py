@@ -10,7 +10,7 @@ from src.use_cases.commands.update_prices_command import (
 
 
 class TestUpdatePricesCommandHandler:
-    def test_execute(self):
+    def test_execute(self) -> None:
         trip_type = "night"
         cost = 100
         update_prices_command = UpdatePricesCommand(cost, trip_type)

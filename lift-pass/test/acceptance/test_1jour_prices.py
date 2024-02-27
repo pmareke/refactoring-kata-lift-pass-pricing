@@ -1,10 +1,10 @@
-from src.main import app
+from src.main import create_app
 from expects import expect, equal
 
 
 class Test1JourPricesAcceptance:
     def setup_method(self) -> None:
-        self.client = app.test_client()
+        self.client = create_app().test_client()
 
     def test_1jour_type(self) -> None:
         response = self.client.get("/prices", query_string={"type": "1jour"})
