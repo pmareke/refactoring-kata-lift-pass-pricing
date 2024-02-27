@@ -1,4 +1,4 @@
-import pytest 
+import pytest
 
 from src.prices import app
 from expects import expect, equal
@@ -35,12 +35,16 @@ class Test1JourPricesAcceptance:
 
     def test_1jour_type_on_holidays(self) -> None:
         date = "2019-02-18"
-        response = self.client.get("/prices", query_string={"type": "1jour", "date": date})
+        response = self.client.get(
+            "/prices", query_string={"type": "1jour", "date": date}
+        )
 
         expect(response.json).to(equal({"cost": 35}))
 
     def test_1jour_type_not_on_holidays(self) -> None:
         date = "2024-02-26"
-        response = self.client.get("/prices", query_string={"type": "1jour", "date": date})
+        response = self.client.get(
+            "/prices", query_string={"type": "1jour", "date": date}
+        )
 
         expect(response.json).to(equal({"cost": 23}))

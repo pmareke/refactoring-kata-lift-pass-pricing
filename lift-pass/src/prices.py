@@ -25,8 +25,20 @@ def update_prices():
     return _update_prices(connection)
 
 
+def _update_prices(conn):
+    lift_pass_cost = request.args["cost"]
+    lift_pass_type = request.args["type"]
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO `base_price` (type, cost) VALUES (?, ?) "
+        + "ON DUPLICATE KEY UPDATE cost = ?",
+        (lift_pass_type, lift_pass_cost, lift_pass_cost),
+    )
+    return {}
+
+
 @app.get("/prices")
-def get_prices():
+def get_price():
     return _get_price(connection)
 
 
@@ -51,15 +63,15 @@ def _get_price(conn: Connection) -> dict:
                 if "date" in request.args:
                     d = datetime.fromisoformat(request.args["date"])
                     if (
-                            d.year == holiday.year
-                            and d.month == holiday.month
-                            and holiday.day == d.day
+                        d.year == holiday.year
+                        and d.month == holiday.month
+                        and holiday.day == d.day
                     ):
                         is_holiday = True
             if (
-                    not is_holiday
-                    and "date" in request.args
-                    and datetime.fromisoformat(request.args["date"]).weekday() == 0
+                not is_holiday
+                and "date" in request.args
+                and datetime.fromisoformat(request.args["date"]).weekday() == 0
             ):
                 reduction = 35
 
@@ -71,10 +83,7 @@ def _get_price(conn: Connection) -> dict:
                     cost = result["cost"] * (1 - reduction / 100)
                     res["cost"] = math.ceil(cost)
                 else:
-                    if (
-                            "age" in request.args
-                            and request.args.get("age", type=int) > 64
-                    ):
+                    if "age" in request.args and request.args.get("age", type=int) > 64:
                         cost = result["cost"] * 0.75 * (1 - reduction / 100)
                         res["cost"] = math.ceil(cost)
                     elif "age" in request.args:
@@ -89,18 +98,6 @@ def _get_price(conn: Connection) -> dict:
             else:
                 res["cost"] = 0
     return res
-
-
-def _update_prices(conn):
-    lift_pass_cost = request.args["cost"]
-    lift_pass_type = request.args["type"]
-    cursor = conn.cursor()
-    cursor.execute(
-        "INSERT INTO `base_price` (type, cost) VALUES (?, ?) "
-        + "ON DUPLICATE KEY UPDATE cost = ?",
-        (lift_pass_type, lift_pass_cost, lift_pass_cost),
-    )
-    return {}
 
 
 if __name__ == "__main__":
