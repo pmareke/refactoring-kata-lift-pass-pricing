@@ -1,7 +1,10 @@
-from pathlib import Path
-
-
-def create_lift_pass_db_connection(connection_options):
+def create_lift_pass_db_connection():
+    connection_options = {
+        "host": "localhost",
+        "user": "root",
+        "database": "lift_pass",
+        "password": "mysql",
+    }
     connection_functions = [
         try_to_connect_with_odbc,
         try_to_connect_with_pymysql,
