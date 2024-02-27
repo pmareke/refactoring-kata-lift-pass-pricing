@@ -8,7 +8,6 @@ class UpdatePricesController:
         self.cursor = cursor
 
     def update_prices(self) -> None:
-
         lift_pass_cost = request.args["cost"]
         lift_pass_type = request.args["type"]
         self.cursor.execute(
