@@ -2,7 +2,10 @@ from doublex import Spy
 from doublex_expects import have_been_called_with
 from expects import expect
 
-from src.use_cases.update_prices_command import UpdatePricesCommand, UpdatePricesCommandHandler
+from src.use_cases.update_prices_command import (
+    UpdatePricesCommand,
+    UpdatePricesCommandHandler,
+)
 
 
 class TestUpdatePricesCommandHandler:
@@ -15,9 +18,9 @@ class TestUpdatePricesCommandHandler:
 
         update_prices_command_handler.execute(update_prices_command)
 
-        expect(cursor.execute).to(have_been_called_with(
-            "INSERT INTO `base_price` (type, cost) VALUES (?, ?) ON DUPLICATE KEY UPDATE cost = ?",
-            (trip_type, cost, cost),
-        ))
-
-
+        expect(cursor.execute).to(
+            have_been_called_with(
+                "INSERT INTO `base_price` (type, cost) VALUES (?, ?) ON DUPLICATE KEY UPDATE cost = ?",
+                (trip_type, cost, cost),
+            )
+        )

@@ -5,7 +5,10 @@ from pymysql.cursors import Cursor
 
 from src.delivery.api.update_prices_controller import UpdatePricesController
 from src.prices import app
-from src.use_cases.update_prices_command import UpdatePricesCommand, UpdatePricesCommandHandler
+from src.use_cases.update_prices_command import (
+    UpdatePricesCommand,
+    UpdatePricesCommandHandler,
+)
 
 
 class TestUpdatePricesController:
@@ -21,4 +24,3 @@ class TestUpdatePricesController:
             controller.update_prices()
 
         expect(command_handler.execute).to(have_been_called)
-
