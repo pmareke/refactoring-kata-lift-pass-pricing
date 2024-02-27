@@ -1,26 +1,9 @@
 import math
 from dataclasses import dataclass
-from datetime import datetime
-from enum import Enum
 
+from src.domain.lift_date import LyftDate
+from src.domain.lift_type import LyftType
 from src.domain.lifts_repository import LiftsRepository
-
-
-@dataclass
-class LyftDate:
-    date: datetime
-
-    def is_monday(self) -> bool:
-        return self.date.weekday() == 0
-
-
-class LyftType(Enum):
-    NIGHT = "night"
-    JOUR = "1jour"
-
-    @property
-    def is_night(self) -> bool:
-        return self == LyftType.NIGHT
 
 
 @dataclass

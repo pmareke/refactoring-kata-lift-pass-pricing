@@ -3,7 +3,9 @@ from datetime import datetime
 from doublex import Stub, Mimic, ANY_ARG
 from expects import expect, equal
 
-from src.domain.lift import Lift, LyftType, LyftDate
+from src.domain.lift import Lift
+from src.domain.lift_date import LyftDate
+from src.domain.lift_type import LyftType
 from src.infrastructure.sql_lifts_repository import SqlLiftsRepository
 from src.use_cases.queries.get_lift_price_query import (
     GetLiftPriceQuery,
@@ -138,12 +140,13 @@ class TestGetPriceQueryHandler:
 
     def test_1jour_holidays_has_not_discount(self) -> None:
         cost = 100
-        date = "2019-02-18"
-        lift = Lift(LyftType.JOUR, date=date)
+        date = datetime.fromisoformat("2019-02-18")
+        lift_date = LyftDate(date)
+        lift = Lift(LyftType.JOUR, date=lift_date)
         get_price_query = GetLiftPriceQuery(lift)
         with Mimic(Stub, SqlLiftsRepository) as repository:
             repository.get_price_for_lift(lift.type).returns(cost)
-            repository.is_holiday(date).returns(True)
+            repository.is_holiday(lift_date).returns(True)
         get_price_query_handler = GetLiftPriceQueryHandler(repository)
 
         lift_cost = get_price_query_handler.execute(get_price_query)
@@ -152,8 +155,7 @@ class TestGetPriceQueryHandler:
 
     def test_1jour_not_on_holidays_has_35_percent_discount(self) -> None:
         cost = 100
-        date = "2024-02-26"
-        date = datetime.fromisoformat(date)
+        date = datetime.fromisoformat("2024-02-26")
         lift_date = LyftDate(date)
         lift = Lift(LyftType.JOUR, date=lift_date)
         get_price_query = GetLiftPriceQuery(lift)

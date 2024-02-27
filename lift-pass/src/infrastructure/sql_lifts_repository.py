@@ -1,6 +1,7 @@
 from pymysql import Connection
 
-from src.domain.lift import LyftDate, LyftType
+from src.domain.lift_date import LyftDate
+from src.domain.lift_type import LyftType
 from src.domain.lifts_repository import LiftsRepository
 
 
@@ -11,14 +12,17 @@ class SqlLiftsRepository(LiftsRepository):
         self.cursor = connection.cursor()
 
     def get_price_for_lift(self, lift_type: LyftType) -> int:
-        self.cursor.execute(f"SELECT cost FROM base_price WHERE type = ? ", lift_type.value)
+        self.cursor.execute(
+            f"SELECT cost FROM base_price WHERE type = ? ", lift_type.value
+        )
         return int(self.cursor.fetchone()[0])
 
     def is_holiday(self, lift_date: LyftDate | None) -> bool:
         if lift_date is None:
             return False
         holiday = self.cursor.execute(
-            f"SELECT * FROM holidays WHERE holiday = ? ", lift_date.date.strftime("%Y-%m-%d")
+            f"SELECT * FROM holidays WHERE holiday = ? ",
+            lift_date.date.strftime("%Y-%m-%d"),
         )
         return bool(holiday > 0)
 
