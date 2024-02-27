@@ -49,11 +49,11 @@ class GetLiftPriceQueryHandler(QueryHandler):
             if not query.lift.date:
                 continue
 
-            d = datetime.fromisoformat(query.lift.date)
+            lift_date = datetime.fromisoformat(query.lift.date)
             if (
-                d.year == holiday.year
-                and d.month == holiday.month
-                and holiday.day == d.day
+                lift_date.year == holiday.year
+                and lift_date.month == holiday.month
+                and holiday.day == lift_date.day
             ):
                 is_holiday = True
 
