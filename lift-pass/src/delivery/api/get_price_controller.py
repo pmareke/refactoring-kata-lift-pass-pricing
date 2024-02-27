@@ -1,35 +1,34 @@
 import math
 
-from pymysql import Connection
-
 from flask import request
 from datetime import datetime
 
+from pymysql.cursors import Cursor
+
 
 class GetPriceController:
-    def __init__(self, connection: Connection) -> None:
-        self.connection = connection
+    def __init__(self, cursor: Cursor) -> None:
+        self.cursor = cursor
 
     def get_price(self):
-        res = {}
+        response = {"cost": 0}
         trip_type = request.args["type"]
         row = self._fetch_one_trip(trip_type)
         result = {"cost": row[0]}
 
         if "age" in request.args and request.args.get("age", type=int) < 6:
-            res["cost"] = 0
-            return res
+            response["cost"] = 0
+            return response
 
         if trip_type == "night":
-            self._calculate_cost_for_night(res, result)
+            self._calculate_cost_for_night(response, result)
         else:
-            self._calculate_cost_for_non_nights(res, result)
-        return res
+            self._calculate_cost_for_non_nights(response, result)
+        return response
 
     def _fetch_one_trip(self, trip_type: str):
-        cursor = self.connection.cursor()
-        cursor.execute(f"SELECT cost FROM base_price WHERE type = ? ", trip_type)
-        return cursor.fetchone()
+        self.cursor.execute(f"SELECT cost FROM base_price WHERE type = ? ", trip_type)
+        return self.cursor.fetchone()
 
     @staticmethod
     def _calculate_cost_for_night(response: dict, result: dict) -> None:
@@ -42,11 +41,10 @@ class GetPriceController:
             response["cost"] = 0
 
     def _calculate_cost_for_non_nights(self, response: dict, result: dict):
-        cursor = self.connection.cursor()
-        cursor.execute("SELECT * FROM holidays")
+        self.cursor.execute("SELECT * FROM holidays")
         is_holiday = False
         reduction = 0
-        for row in cursor.fetchall():
+        for row in self.cursor.fetchall():
             holiday = row[0]
             if "date" in request.args:
                 d = datetime.fromisoformat(request.args["date"])
