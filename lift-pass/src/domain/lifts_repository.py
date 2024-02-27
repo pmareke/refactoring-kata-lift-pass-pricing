@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 
 
-class TripsRepository(ABC):
+class LiftsRepository(ABC):
     @abstractmethod
-    def get_price_for_type(self, trip_type: str) -> int:
+    def get_price_for_lift(self, trip_type: str) -> int:
         raise NotImplementedError
 
     @abstractmethod

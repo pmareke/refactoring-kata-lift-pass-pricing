@@ -1,14 +1,14 @@
 from pymysql import Connection
 
-from src.domain.trips_repository import TripsRepository
+from src.domain.lifts_repository import LiftsRepository
 
 
-class SqlTripsRepository(TripsRepository):
+class SqlLiftsRepository(LiftsRepository):
     def __init__(self) -> None:
         connection = self._create_lift_pass_db_connection()
         self.cursor = connection.cursor()
 
-    def get_price_for_type(self, trip_type: str) -> int:
+    def get_price_for_lift(self, trip_type: str) -> int:
         self.cursor.execute(f"SELECT cost FROM base_price WHERE type = ? ", trip_type)
         return int(self.cursor.fetchone()[0])
 
