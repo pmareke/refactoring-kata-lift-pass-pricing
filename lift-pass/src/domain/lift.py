@@ -6,6 +6,14 @@ from enum import Enum
 from src.domain.lifts_repository import LiftsRepository
 
 
+@dataclass
+class LyftDate:
+    date: datetime
+
+    def is_monday(self) -> bool:
+        return self.date.weekday() == 0
+
+
 class LyftType(Enum):
     NIGHT = "night"
     JOUR = "1jour"
@@ -19,10 +27,10 @@ class LyftType(Enum):
 class Lift:
     type: LyftType
     age: int | None = None
-    date: str | None = None
+    date: LyftDate | None = None
 
     def calculate_cost(self, lifts_repository: LiftsRepository) -> int:
-        cost = lifts_repository.get_price_for_lift(self.type.value)
+        cost = lifts_repository.get_price_for_lift(self.type)
 
         if self.age and self.age < 6:
             return 0
@@ -44,7 +52,7 @@ class Lift:
     ) -> int:
         reduction = 0
         is_holiday = lifts_repository.is_holiday(self.date)
-        if not is_holiday and self.date and self._is_monday(self.date):
+        if not is_holiday and self.date and self.date.is_monday():
             reduction = 35
 
         # TODO: apply reduction for others
@@ -61,7 +69,3 @@ class Lift:
 
         new_cost = cost * (1 - reduction / 100)
         return math.ceil(new_cost)
-
-    @staticmethod
-    def _is_monday(date: str) -> bool:
-        return datetime.fromisoformat(date).weekday() == 0

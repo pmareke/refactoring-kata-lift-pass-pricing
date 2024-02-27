@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from datetime import datetime
 
 
 class LiftsRepository(ABC):
@@ -7,7 +8,7 @@ class LiftsRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def is_holiday(self, date: str | None) -> bool:
+    def is_holiday(self, date: datetime | None) -> bool:
         raise NotImplementedError
 
     @abstractmethod

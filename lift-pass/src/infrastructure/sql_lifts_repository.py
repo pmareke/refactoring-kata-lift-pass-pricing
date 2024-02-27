@@ -1,5 +1,6 @@
 from pymysql import Connection
 
+from src.domain.lift import LyftDate, LyftType
 from src.domain.lifts_repository import LiftsRepository
 
 
@@ -9,22 +10,22 @@ class SqlLiftsRepository(LiftsRepository):
         connection = self._create_lift_pass_db_connection()
         self.cursor = connection.cursor()
 
-    def get_price_for_lift(self, trip_type: str) -> int:
-        self.cursor.execute(f"SELECT cost FROM base_price WHERE type = ? ", trip_type)
+    def get_price_for_lift(self, lift_type: LyftType) -> int:
+        self.cursor.execute(f"SELECT cost FROM base_price WHERE type = ? ", lift_type.value)
         return int(self.cursor.fetchone()[0])
 
-    def is_holiday(self, date: str | None) -> bool:
-        if date is None:
+    def is_holiday(self, lift_date: LyftDate | None) -> bool:
+        if lift_date is None:
             return False
         holiday = self.cursor.execute(
-            f"SELECT * FROM holidays WHERE holiday = ? ", date
+            f"SELECT * FROM holidays WHERE holiday = ? ", lift_date.date.strftime("%Y-%m-%d")
         )
         return bool(holiday > 0)
 
-    def add_price(self, trip_type: str, cost: int) -> None:
+    def add_price(self, lift_type: LyftType, cost: int) -> None:
         self.cursor.execute(
             "INSERT INTO `base_price` (type, cost) VALUES (?, ?) ON DUPLICATE KEY UPDATE cost = ?",
-            (trip_type, cost, cost),
+            (lift_type.value, cost, cost),
         )
 
     def _create_lift_pass_db_connection(self) -> Connection:

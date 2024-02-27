@@ -1,13 +1,14 @@
 from dataclasses import dataclass
 
 from src.domain.command import Command, CommandHandler
+from src.domain.lift import LyftType
 from src.domain.lifts_repository import LiftsRepository
 
 
 @dataclass
 class UpdateLiftsPricesCommand(Command):
     cost: int
-    trip_type: str
+    trip_type: LyftType
 
 
 class UpdateLiftsPricesCommandHandler(CommandHandler):
