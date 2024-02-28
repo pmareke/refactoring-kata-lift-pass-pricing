@@ -19,11 +19,9 @@ class SqlLiftsRepository(LiftsRepository):
         )
         return int(self.cursor.fetchone()[0])
 
-    def is_holiday(self, lift_date: LyftDate | None) -> bool:
-        if lift_date is None:
-            return False
+    def is_holiday(self, lift_date: LyftDate) -> bool:
         holiday = self.cursor.execute(
-            f"SELECT * FROM holidays WHERE holiday = ? ",
+            f"SELECT * FROM holidays WHERE holiday = ?  LIMIT 1",
             lift_date.date.strftime("%Y-%m-%d"),
         )
         return bool(holiday > 0)

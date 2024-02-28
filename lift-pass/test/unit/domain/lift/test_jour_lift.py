@@ -74,7 +74,7 @@ class TestJourLift:
 
         expect(lift_cost).to(equal(cost))
 
-    def test_1jour_type_not_on_holidays(self) -> None:
+    def test_1jour_type_not_on_holidays_but_monday(self) -> None:
         date = datetime.fromisoformat("2019-02-18")
         lift_date = LyftDate(date)
         lift = JourLift(date=lift_date)
@@ -86,3 +86,16 @@ class TestJourLift:
         lift_cost = lift.calculate_cost(lifts_repository)
 
         expect(lift_cost).to(equal(math.ceil(cost * 0.65)))
+
+    def test_1jour_type_not_on_holidays_neither_monday(self) -> None:
+        date = datetime.fromisoformat("2019-02-19")
+        lift_date = LyftDate(date)
+        lift = JourLift(date=lift_date)
+        cost = 19
+        with Mimic(Stub, SqlLiftsRepository) as lifts_repository:
+            lifts_repository.get_price_for_lift(LyftType.JOUR).returns(cost)
+            lifts_repository.is_holiday(ANY_ARG).returns(False)
+
+        lift_cost = lift.calculate_cost(lifts_repository)
+
+        expect(lift_cost).to(equal(cost))

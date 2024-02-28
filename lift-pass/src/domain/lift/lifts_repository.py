@@ -10,7 +10,7 @@ class LiftsRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def is_holiday(self, date: LyftDate | None) -> bool:
+    def is_holiday(self, date: LyftDate) -> bool:
         raise NotImplementedError
 
     @abstractmethod
