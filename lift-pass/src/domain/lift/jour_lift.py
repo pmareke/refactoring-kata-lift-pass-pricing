@@ -12,28 +12,58 @@ class JourLift(Lift):
     age: int | None = None
     date: LyftDate | None = None
 
+    ZERO_COST = 0
+    ZERO_REDUCTION = 0
+    THIRTY_FIVE_REDUCTION = 35
+
+    SEVENTY_DISCOUNT = 0.7
+    SEVENTY_FIVE_DISCOUNT = 0.75
+
+    SIX_YEARS_OLD = 6
+    FIFTEEN_YEARS_OLD = 15
+    SIXTY_FOUR_YEARS_OLD = 64
+
     def calculate_cost(self, lifts_repository: LiftsRepository) -> int:
         cost = lifts_repository.get_price_for_lift(LyftType.JOUR)
-
-        if self.age and self.age < 6:
-            return 0
-
-        reduction = 0
-        is_holiday = lifts_repository.is_holiday(self.date)
-        if not is_holiday and self.date and self.date.is_monday():
-            reduction = 35
-
-        # TODO: apply reduction for others
-        if self.age and self.age < 15:
-            return math.ceil(cost * 0.7)
+        reduction = self._calculate_reduction(lifts_repository)
+        discount = self._calculate_discount(reduction)
 
         if not self.age:
-            new_cost = cost * (1 - reduction / 100)
-            return math.ceil(new_cost)
+            return math.ceil(cost * discount)
 
-        if self.age > 64:
-            new_cost = cost * 0.75 * (1 - reduction / 100)
-            return math.ceil(new_cost)
+        if self._is_younger_than_six():
+            return self.ZERO_COST
 
-        new_cost = cost * (1 - reduction / 100)
+        # TODO: apply reduction for others
+        if self._is_younger_than_fifteen():
+            return math.ceil(cost * self.SEVENTY_DISCOUNT)
+
+        if self._is_older_than_sixty_four():
+            return math.ceil(cost * self.SEVENTY_FIVE_DISCOUNT * discount)
+
+        new_cost = cost * discount
         return math.ceil(new_cost)
+
+    @staticmethod
+    def _calculate_discount(reduction: int) -> int:
+        return 1 - reduction / 100
+
+    def _calculate_reduction(self, lifts_repository: LiftsRepository) -> int:
+        if not self.date:
+            return self.ZERO_REDUCTION
+
+        is_holiday = lifts_repository.is_holiday(self.date)
+        if is_holiday:
+            return self.ZERO_REDUCTION
+
+        if self.date.is_monday():
+            return self.THIRTY_FIVE_REDUCTION
+
+    def _is_younger_than_six(self) -> bool:
+        return bool(self.age < self.SIX_YEARS_OLD)
+
+    def _is_younger_than_fifteen(self) -> bool:
+        return bool(self.age < self.FIFTEEN_YEARS_OLD)
+
+    def _is_older_than_sixty_four(self) -> bool:
+        return bool(self.age > self.SIXTY_FOUR_YEARS_OLD)

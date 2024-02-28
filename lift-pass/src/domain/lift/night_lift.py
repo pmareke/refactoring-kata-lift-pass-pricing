@@ -12,16 +12,26 @@ class NightLift(Lift):
     age: int | None = None
     date: LyftDate | None = None
 
+    NO_COST = 0
+    SIX_YEARS_OLD = 6
+    SIXTY_FOUR_YEARS_OLD = 64
+
     def calculate_cost(self, lifts_repository: LiftsRepository) -> int:
         cost = lifts_repository.get_price_for_lift(LyftType.NIGHT)
 
-        if self.age and self.age < 6:
-            return 0
-
         if not self.age:
-            return 0
+            return self.NO_COST
 
-        if 6 < self.age and self.age > 64:
+        if self._is_younger_than_six():
+            return self.NO_COST
+
+        if self._is_older_than_sixty_four():
             return math.ceil(cost * 0.4)
 
         return cost
+
+    def _is_younger_than_six(self) -> bool:
+        return bool(self.age < self.SIX_YEARS_OLD)
+
+    def _is_older_than_sixty_four(self) -> bool:
+        return bool(self.age > self.SIXTY_FOUR_YEARS_OLD)
