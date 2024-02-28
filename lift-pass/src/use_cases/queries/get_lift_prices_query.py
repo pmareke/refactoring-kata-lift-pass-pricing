@@ -15,6 +15,10 @@ class GetLiftPricesQueryHandler(QueryHandler):
         self.lifts_repository = lifts_repository
 
     def execute(self, query: GetLiftPricesQuery) -> list:
+        costs = self._calculate_scores(query)
+        return costs
+
+    def _calculate_scores(self, query: GetLiftPricesQuery) -> list[dict]:
         costs = []
         for lift in query.lifts:
             cost = lift.calculate_cost(self.lifts_repository)

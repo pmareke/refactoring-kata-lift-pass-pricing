@@ -2,6 +2,7 @@ from datetime import datetime
 
 from flask import request
 
+from src.domain.lift.lift import Lift
 from src.domain.lift.lift_date import LyftDate
 from src.domain.lift.lift_factory import LiftFactory
 from src.domain.lift.lift_type import LyftType
@@ -14,14 +15,21 @@ class GetLiftPriceController:
         self.query_handler = query_handler
 
     def get_lift_price(self) -> dict:
+        lift = self._generate_lift()
+        query = GetLiftPriceQuery(lift)
+        response: list[dict] = self.query_handler.execute(query)
+        return response[0]
+
+    def _generate_lift(self) -> Lift:
         lift_type = LyftType(request.args["type"])
         age = request.args.get("age", type=int)
         date = request.args.get("date")
-        lift_date = None
-        if date:
-            lift_date = LyftDate(datetime.fromisoformat(date))
+        lift_date = self._get_lift_date(date)
         lift = LiftFactory.make(lift_type, age, lift_date)
-        query = GetLiftPriceQuery(lift)
+        return lift
 
-        response: list[dict] = self.query_handler.execute(query)
-        return response[0]
+    @staticmethod
+    def _get_lift_date(date: str | None) -> LyftDate | None:
+        if date:
+            return LyftDate(datetime.fromisoformat(date))
+        return None
