@@ -3,10 +3,10 @@ from flask import Flask
 from src.delivery.api.get_lift_price_controller import GetLiftPriceController
 from src.delivery.api.update_lifts_prices_controller import UpdateLiftsPricesController
 from src.infrastructure.sql_lifts_repository import SqlLiftsRepository
-from src.use_cases.queries.get_lift_price_query import GetLiftPriceQueryHandler
 from src.use_cases.commands.update_lifts_prices_command import (
     UpdateLiftsPricesCommandHandler,
 )
+from src.use_cases.queries.get_lift_price_query import GetLiftPriceQueryHandler
 
 
 def create_app() -> Flask:
@@ -29,4 +29,5 @@ def create_app() -> Flask:
 
 
 if __name__ == "__main__":
-    create_app().run(port=3005)
+    port = 3005
+    create_app().run(port=port)
