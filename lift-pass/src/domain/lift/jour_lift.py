@@ -9,6 +9,7 @@ from src.domain.lift.lifts_repository import LiftsRepository
 
 @dataclass
 class JourLift(Lift):
+    type: LyftType = LyftType.JOUR
     age: int | None = None
     date: LyftDate | None = None
 
@@ -24,7 +25,7 @@ class JourLift(Lift):
     SIXTY_FOUR_YEARS_OLD = 64
 
     def calculate_cost(self, lifts_repository: LiftsRepository) -> int:
-        cost = lifts_repository.get_price_for_lift(LyftType.JOUR)
+        cost = lifts_repository.get_price_for_lift(self.type)
         reduction = self._calculate_reduction(lifts_repository)
         discount = self._calculate_discount(reduction)
 

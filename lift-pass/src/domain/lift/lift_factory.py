@@ -11,5 +11,5 @@ class LiftFactory:
         lift_type: LyftType, age: int | None = None, date: LyftDate | None = None
     ) -> Lift:
         if lift_type.is_night:
-            return NightLift(age, date)
-        return JourLift(age, date)
+            return NightLift(age=age, date=date)
+        return JourLift(age=age, date=date)

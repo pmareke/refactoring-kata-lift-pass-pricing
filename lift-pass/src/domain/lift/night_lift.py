@@ -9,6 +9,7 @@ from src.domain.lift.lifts_repository import LiftsRepository
 
 @dataclass
 class NightLift(Lift):
+    type: LyftType = LyftType.NIGHT
     age: int | None = None
     date: LyftDate | None = None
 
@@ -17,7 +18,7 @@ class NightLift(Lift):
     SIXTY_FOUR_YEARS_OLD = 64
 
     def calculate_cost(self, lifts_repository: LiftsRepository) -> int:
-        cost = lifts_repository.get_price_for_lift(LyftType.NIGHT)
+        cost = lifts_repository.get_price_for_lift(self.type)
 
         if not self.age:
             return self.NO_COST
