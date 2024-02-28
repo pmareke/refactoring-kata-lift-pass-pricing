@@ -11,5 +11,9 @@ class Lift(ABC):
     date: LyftDate | None
 
     @abstractmethod
+    def date_iso_format(self) -> str:
+        raise NotImplementedError
+
+    @abstractmethod
     def calculate_cost(self, lifts_repository: LiftsRepository) -> int:
         raise NotImplementedError

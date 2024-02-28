@@ -14,5 +14,6 @@ class GetLiftPriceQueryHandler(QueryHandler):
     def __init__(self, lifts_repository: LiftsRepository) -> None:
         self.lifts_repository = lifts_repository
 
-    def execute(self, query: GetLiftPriceQuery) -> int:
-        return query.lift.calculate_cost(self.lifts_repository)
+    def execute(self, query: GetLiftPriceQuery) -> list:
+        cost = query.lift.calculate_cost(self.lifts_repository)
+        return [{"cost": cost}]

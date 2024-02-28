@@ -1,21 +1,27 @@
 from flask import Flask
 
 from src.delivery.api.get_lift_price_controller import GetLiftPriceController
+from src.delivery.api.get_lift_prices_controller import GetLiftPricesController
 from src.delivery.api.update_lifts_prices_controller import UpdateLiftsPricesController
 from src.infrastructure.sql_lifts_repository import SqlLiftsRepository
 from src.use_cases.commands.update_lifts_prices_command import (
     UpdateLiftsPricesCommandHandler,
 )
 from src.use_cases.queries.get_lift_price_query import GetLiftPriceQueryHandler
+from src.use_cases.queries.get_lift_prices_query import GetLiftPricesQueryHandler
 
 
 def create_app() -> Flask:
     app = Flask("lift-pass-pricing")
     lifts_repository = SqlLiftsRepository()
 
-    get_price_lift_query_handler = GetLiftPriceQueryHandler(lifts_repository)
-    get_price_lift_controller = GetLiftPriceController(get_price_lift_query_handler)
-    app.route("/prices", methods=["GET"])(get_price_lift_controller.get_lift_price)
+    get_lift_price_query_handler = GetLiftPriceQueryHandler(lifts_repository)
+    get_lift_price_controller = GetLiftPriceController(get_lift_price_query_handler)
+    app.route("/prices", methods=["GET"])(get_lift_price_controller.get_lift_price)
+
+    get_lift_prices_query_handler = GetLiftPricesQueryHandler(lifts_repository)
+    get_lift_prices_controller = GetLiftPricesController(get_lift_prices_query_handler)
+    app.route("/prices", methods=["POST"])(get_lift_prices_controller.get_lift_prices)
 
     update_lifts_prices_command_handler = UpdateLiftsPricesCommandHandler(
         lifts_repository

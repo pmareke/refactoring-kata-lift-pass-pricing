@@ -23,5 +23,5 @@ class GetLiftPriceController:
         lift = LiftFactory.make(lift_type, age, lift_date)
         query = GetLiftPriceQuery(lift)
 
-        cost = self.query_handler.execute(query)
-        return {"cost": cost}
+        response: list[dict] = self.query_handler.execute(query)
+        return response[0]

@@ -9,7 +9,7 @@ from src.use_cases.queries.get_lift_price_query import (
 )
 
 
-class TestGetPriceQueryHandler:
+class TestGetLiftPriceQueryHandler:
     def test_calculates_cost(self) -> None:
         lift = Spy()
         get_price_query = GetLiftPriceQuery(lift)

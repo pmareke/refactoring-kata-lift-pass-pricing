@@ -9,6 +9,7 @@ from src.domain.lift.lifts_repository import LiftsRepository
 
 @dataclass
 class NightLift(Lift):
+
     type: LyftType = LyftType.NIGHT
     age: int | None = None
     date: LyftDate | None = None
@@ -16,6 +17,10 @@ class NightLift(Lift):
     NO_COST = 0
     SIX_YEARS_OLD = 6
     SIXTY_FOUR_YEARS_OLD = 64
+
+    def date_iso_format(self) -> str:
+        assert self.date
+        return self.date.date.strftime("%Y-%m-%d")
 
     def calculate_cost(self, lifts_repository: LiftsRepository) -> int:
         cost = lifts_repository.get_price_for_lift(self.type)

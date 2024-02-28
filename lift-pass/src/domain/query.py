@@ -7,5 +7,5 @@ class Query(ABC):
 
 class QueryHandler(ABC):
     @abstractmethod
-    def execute(self, command: Query) -> dict:
+    def execute(self, command: Query) -> list:
         raise NotImplementedError

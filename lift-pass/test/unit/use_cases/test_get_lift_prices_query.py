@@ -14,7 +14,7 @@ from src.use_cases.queries.get_lift_prices_query import (
 )
 
 
-class TestGetPricesQueryHandler:
+class TestGetLiftPricesQueryHandler:
     def test_calculates_costs(self) -> None:
         cost = 0
         age = 1
@@ -33,13 +33,13 @@ class TestGetPricesQueryHandler:
                     {
                         "type": "night",
                         "age": night_lift.age,
-                        "date": night_lift.date,
+                        "date": night_lift.date_iso_format(),
                         "cost": cost,
                     },
                     {
                         "type": "1jour",
                         "age": jour_lift.age,
-                        "date": jour_lift.date,
+                        "date": jour_lift.date_iso_format(),
                         "cost": cost,
                     },
                 ]
@@ -83,8 +83,16 @@ class TestGetPricesQueryHandler:
         expect(costs).to(
             equal(
                 [
-                    {"type": "night", "date": night_lift.date, "cost": cost},
-                    {"type": "1jour", "date": jour_lift.date, "cost": cost},
+                    {
+                        "type": "night",
+                        "date": night_lift.date_iso_format(),
+                        "cost": cost,
+                    },
+                    {
+                        "type": "1jour",
+                        "date": jour_lift.date_iso_format(),
+                        "cost": cost,
+                    },
                 ]
             )
         )

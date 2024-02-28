@@ -1,4 +1,4 @@
-from doublex import Mimic, Spy
+from doublex import Mimic, Spy, ANY_ARG
 from doublex_expects import have_been_called
 from expects import expect
 
@@ -11,7 +11,8 @@ from src.use_cases.queries.get_lift_price_query import GetLiftPriceQueryHandler
 class TestGetLiftPriceController:
     def test_get_lift_price(self) -> None:
         lift_type = LyftType.NIGHT
-        handler = Mimic(Spy, GetLiftPriceQueryHandler)
+        with Mimic(Spy, GetLiftPriceQueryHandler) as handler:
+            handler.execute(ANY_ARG).returns([{"cost": 10}])
         controller = GetLiftPriceController(handler)
         url_path = f"/prices?type={lift_type.value}"
 

@@ -24,6 +24,10 @@ class JourLift(Lift):
     FIFTEEN_YEARS_OLD = 15
     SIXTY_FOUR_YEARS_OLD = 64
 
+    def date_iso_format(self) -> str:
+        assert self.date
+        return self.date.date.strftime("%Y-%m-%d")
+
     def calculate_cost(self, lifts_repository: LiftsRepository) -> int:
         cost = lifts_repository.get_price_for_lift(self.type)
         reduction = self._calculate_reduction(lifts_repository)
