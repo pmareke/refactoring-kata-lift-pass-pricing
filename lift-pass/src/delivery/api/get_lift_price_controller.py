@@ -30,6 +30,6 @@ class GetLiftPriceController:
 
     @staticmethod
     def _get_lift_date(date: str | None) -> LyftDate | None:
-        if date:
-            return LyftDate(datetime.fromisoformat(date))
-        return None
+        if not date:
+            return None
+        return LyftDate(datetime.fromisoformat(date))
