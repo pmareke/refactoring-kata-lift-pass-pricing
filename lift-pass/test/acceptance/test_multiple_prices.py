@@ -8,6 +8,11 @@ class TestGetLiftPricesAcceptance:
     def setup_method(self) -> None:
         self.client = create_app().test_client()
 
+    def test_get_empty(self) -> None:
+        response = self.client.post("/prices", json=[])
+
+        expect(response.json).to(equal([]))
+
     def test_get_prices_with_type(self) -> None:
         lyft_type_jour_value = LyftType.JOUR.value
         lyft_type_night_value = LyftType.NIGHT.value

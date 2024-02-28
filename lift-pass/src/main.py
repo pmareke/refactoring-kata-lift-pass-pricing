@@ -3,7 +3,7 @@ from flask import Flask
 from src.delivery.api.get_lift_price_controller import GetLiftPriceController
 from src.delivery.api.get_lift_prices_controller import GetLiftPricesController
 from src.delivery.api.update_lifts_prices_controller import UpdateLiftsPricesController
-from src.infrastructure.sql_lifts_repository import SqlLiftsRepository
+from src.infrastructure.sql_lifts_repository import SqlLiftsRepositoryFactory
 from src.use_cases.commands.update_lifts_prices_command import (
     UpdateLiftsPricesCommandHandler,
 )
@@ -13,7 +13,7 @@ from src.use_cases.queries.get_lift_prices_query import GetLiftPricesQueryHandle
 
 def create_app() -> Flask:
     app = Flask("lift-pass-pricing")
-    lifts_repository = SqlLiftsRepository()
+    lifts_repository = SqlLiftsRepositoryFactory.make()
 
     get_lift_price_query_handler = GetLiftPriceQueryHandler(lifts_repository)
     get_lift_price_controller = GetLiftPriceController(get_lift_price_query_handler)

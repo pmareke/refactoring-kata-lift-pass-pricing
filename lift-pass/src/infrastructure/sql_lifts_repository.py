@@ -1,5 +1,6 @@
-import pymysql.cursors
+import pymysql
 from pymysql import Connection
+from pymysql.cursors import Cursor
 
 from src.domain.lift.lift_date import LyftDate
 from src.domain.lift.lift_type import LyftType
@@ -9,9 +10,8 @@ from src.infrastructure.sql_cursor_wrapper import PyMySQLCursorWrapper
 
 class SqlLiftsRepository(LiftsRepository):
 
-    def __init__(self) -> None:
-        connection = self._create_connection()
-        self.cursor = connection.cursor()
+    def __init__(self, cursor: Cursor) -> None:
+        self.cursor = cursor
 
     def get_price_for_lift(self, lift_type: LyftType) -> int:
         self.cursor.execute(
@@ -31,6 +31,14 @@ class SqlLiftsRepository(LiftsRepository):
             "INSERT INTO `base_price` (type, cost) VALUES (?, ?) ON DUPLICATE KEY UPDATE cost = ?",
             (lift_type.value, cost, cost),
         )
+
+
+class SqlLiftsRepositoryFactory:
+    @staticmethod
+    def make() -> SqlLiftsRepository:
+        connection = SqlLiftsRepositoryFactory._create_connection()
+        cursor = connection.cursor()
+        return SqlLiftsRepository(cursor)
 
     @staticmethod
     def _create_connection() -> Connection:
