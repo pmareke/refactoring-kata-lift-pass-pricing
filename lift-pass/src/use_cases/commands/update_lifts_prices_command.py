@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
 from src.domain.command import Command, CommandHandler
-from src.domain.lift_type import LyftType
-from src.domain.lifts_repository import LiftsRepository
+from src.domain.lift.lift_type import LyftType
+from src.domain.lift.lifts_repository import LiftsRepository
 
 
 @dataclass

@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from src.domain.lift import Lift
+from src.domain.lift.lift import Lift
+from src.domain.lift.lifts_repository import LiftsRepository
 from src.domain.query import QueryHandler, Query
-from src.domain.lifts_repository import LiftsRepository
 
 
 @dataclass

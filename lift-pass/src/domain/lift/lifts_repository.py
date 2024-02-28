@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
-from datetime import datetime
 
-from src.domain.lift_date import LyftDate
-from src.domain.lift_type import LyftType
+from src.domain.lift.lift_date import LyftDate
+from src.domain.lift.lift_type import LyftType
 
 
 class LiftsRepository(ABC):

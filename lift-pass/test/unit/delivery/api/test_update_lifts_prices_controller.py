@@ -3,7 +3,7 @@ from doublex_expects import have_been_called
 from expects import expect
 
 from src.delivery.api.update_lifts_prices_controller import UpdateLiftsPricesController
-from src.domain.lift_type import LyftType
+from src.domain.lift.lift_type import LyftType
 from src.main import create_app
 from src.use_cases.commands.update_lifts_prices_command import (
     UpdateLiftsPricesCommandHandler,

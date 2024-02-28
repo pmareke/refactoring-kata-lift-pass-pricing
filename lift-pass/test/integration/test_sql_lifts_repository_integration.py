@@ -2,8 +2,8 @@ from datetime import datetime
 
 from expects import expect, equal, be_true, be_false
 
-from src.domain.lift_date import LyftDate
-from src.domain.lift_type import LyftType
+from src.domain.lift.lift_date import LyftDate
+from src.domain.lift.lift_type import LyftType
 from src.infrastructure.sql_lifts_repository import SqlLiftsRepository
 
 

@@ -1,10 +1,9 @@
 import pymysql.cursors
-
 from pymysql import Connection
 
-from src.domain.lift_date import LyftDate
-from src.domain.lift_type import LyftType
-from src.domain.lifts_repository import LiftsRepository
+from src.domain.lift.lift_date import LyftDate
+from src.domain.lift.lift_type import LyftType
+from src.domain.lift.lifts_repository import LiftsRepository
 from src.infrastructure.sql_cursor_wrapper import PyMySQLCursorWrapper
 
 

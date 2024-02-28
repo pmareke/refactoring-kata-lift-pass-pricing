@@ -1,38 +1,23 @@
 import math
 from dataclasses import dataclass
 
-from src.domain.lift_date import LyftDate
-from src.domain.lift_type import LyftType
-from src.domain.lifts_repository import LiftsRepository
+from src.domain.lift.lift import Lift
+from src.domain.lift.lift_date import LyftDate
+from src.domain.lift.lift_type import LyftType
+from src.domain.lift.lifts_repository import LiftsRepository
 
 
 @dataclass
-class Lift:
-    type: LyftType
+class JourLift(Lift):
     age: int | None = None
     date: LyftDate | None = None
 
     def calculate_cost(self, lifts_repository: LiftsRepository) -> int:
-        cost = lifts_repository.get_price_for_lift(self.type)
+        cost = lifts_repository.get_price_for_lift(LyftType.JOUR)
 
         if self.age and self.age < 6:
             return 0
 
-        if self.type.is_night:
-            return self._calculate_cost_for_one_night_lift(cost)
-
-        return self._calculate_cost_for_non_night_lifts(cost, lifts_repository)
-
-    def _calculate_cost_for_one_night_lift(self, cost: int) -> int:
-        if not self.age:
-            return 0
-        if 6 < self.age and self.age > 64:
-            return math.ceil(cost * 0.4)
-        return cost
-
-    def _calculate_cost_for_non_night_lifts(
-        self, cost: int, lifts_repository: LiftsRepository
-    ) -> int:
         reduction = 0
         is_holiday = lifts_repository.is_holiday(self.date)
         if not is_holiday and self.date and self.date.is_monday():

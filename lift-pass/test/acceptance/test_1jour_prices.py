@@ -1,6 +1,6 @@
 from expects import expect, equal
 
-from src.domain.lift_type import LyftType
+from src.domain.lift.lift_type import LyftType
 from src.main import create_app
 
 

@@ -3,7 +3,7 @@ from doublex_expects import have_been_called
 from expects import expect
 
 from src.delivery.api.get_lift_price_controller import GetLiftPriceController
-from src.domain.lift_type import LyftType
+from src.domain.lift.lift_type import LyftType
 from src.main import create_app
 from src.use_cases.queries.get_lift_price_query import GetLiftPriceQueryHandler
 

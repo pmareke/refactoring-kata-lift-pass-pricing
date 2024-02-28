@@ -1,7 +1,7 @@
 from flask import request
 
 from src.domain.command import CommandHandler
-from src.domain.lift_type import LyftType
+from src.domain.lift.lift_type import LyftType
 from src.use_cases.commands.update_lifts_prices_command import (
     UpdateLiftsPricesCommand,
 )

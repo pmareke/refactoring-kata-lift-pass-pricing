@@ -2,7 +2,7 @@ from doublex import Spy, Mimic
 from doublex_expects import have_been_called_with
 from expects import expect
 
-from src.domain.lift_type import LyftType
+from src.domain.lift.lift_type import LyftType
 from src.infrastructure.sql_lifts_repository import SqlLiftsRepository
 from src.use_cases.commands.update_lifts_prices_command import (
     UpdateLiftsPricesCommand,
