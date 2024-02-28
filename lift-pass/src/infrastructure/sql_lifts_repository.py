@@ -1,7 +1,9 @@
+from typing import Any
+
 import pymysql
-from pymysql import Connection
 from pymysql.cursors import Cursor
 
+from src.domain.lift.exceptions import SqlLiftsRepositoryException
 from src.domain.lift.lift_date import LyftDate
 from src.domain.lift.lift_type import LyftType
 from src.domain.lift.lifts_repository import LiftsRepository
@@ -35,20 +37,16 @@ class SqlLiftsRepository(LiftsRepository):
 
 class SqlLiftsRepositoryFactory:
     @staticmethod
-    def make() -> SqlLiftsRepository:
-        connection = SqlLiftsRepositoryFactory._create_connection()
-        cursor = connection.cursor()
-        return SqlLiftsRepository(cursor)
-
-    @staticmethod
-    def _create_connection() -> Connection:
+    def make(connector: Any = pymysql) -> SqlLiftsRepository:  # type: ignore
         try:
-            return pymysql.connect(
+            connection = connector.connect(
                 host="localhost",
                 user="root",
                 password="mysql",
                 database="lift_pass",
                 cursorclass=PyMySQLCursorWrapper,
             )
+            cursor = connection.cursor()
+            return SqlLiftsRepository(cursor)
         except Exception as ex:
-            print(f"unable to connect to db {ex}")
+            raise SqlLiftsRepositoryException from ex

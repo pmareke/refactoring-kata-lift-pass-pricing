@@ -1,0 +1,2 @@
+class SqlLiftsRepositoryException(Exception):
+    pass
