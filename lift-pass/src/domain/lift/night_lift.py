@@ -31,7 +31,9 @@ class NightLift(Lift):
         return cost
 
     def _is_younger_than_six(self) -> bool:
+        assert self.age
         return bool(self.age < self.SIX_YEARS_OLD)
 
     def _is_older_than_sixty_four(self) -> bool:
+        assert self.age
         return bool(self.age > self.SIXTY_FOUR_YEARS_OLD)

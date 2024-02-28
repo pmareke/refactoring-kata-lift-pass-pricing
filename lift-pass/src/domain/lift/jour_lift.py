@@ -45,7 +45,7 @@ class JourLift(Lift):
         return math.ceil(new_cost)
 
     @staticmethod
-    def _calculate_discount(reduction: int) -> int:
+    def _calculate_discount(reduction: int) -> float:
         return 1 - reduction / 100
 
     def _calculate_reduction(self, lifts_repository: LiftsRepository) -> int:
@@ -59,11 +59,16 @@ class JourLift(Lift):
         if self.date.is_monday():
             return self.THIRTY_FIVE_REDUCTION
 
+        return self.ZERO_REDUCTION
+
     def _is_younger_than_six(self) -> bool:
+        assert self.age
         return bool(self.age < self.SIX_YEARS_OLD)
 
     def _is_younger_than_fifteen(self) -> bool:
+        assert self.age
         return bool(self.age < self.FIFTEEN_YEARS_OLD)
 
     def _is_older_than_sixty_four(self) -> bool:
+        assert self.age
         return bool(self.age > self.SIXTY_FOUR_YEARS_OLD)
