@@ -20,7 +20,7 @@ class GetLiftPricesQueryHandler(QueryHandler):
             cost = lift.calculate_cost(self.lifts_repository)
             result = {"type": lift.type.value, "cost": cost}
             if lift.date:
-                result["date"] = lift.date
+                result["date"] = lift.date.date.strftime("%Y-%m-%d")
             if lift.age:
                 result["age"] = lift.age
             costs.append(result)

@@ -8,7 +8,10 @@ from src.domain.lift.lift_date import LyftDate
 from src.domain.lift.lift_type import LyftType
 from src.domain.lift.night_lift import NightLift
 from src.infrastructure.sql_lifts_repository import SqlLiftsRepository
-from src.use_cases.queries.get_lift_prices_query import GetLiftPricesQuery, GetLiftPricesQueryHandler
+from src.use_cases.queries.get_lift_prices_query import (
+    GetLiftPricesQuery,
+    GetLiftPricesQueryHandler,
+)
 
 
 class TestGetPricesQueryHandler:
@@ -24,20 +27,24 @@ class TestGetPricesQueryHandler:
 
         costs = get_prices_query_handler.execute(get_prices_query)
 
-        expect(costs).to(equal([
-            {
-                "type": "night",
-                "age": night_lift.age,
-                "date": night_lift.date,
-                "cost": cost
-            },
-            {
-                "type": "1jour",
-                "age": jour_lift.age,
-                "date": jour_lift.date,
-                "cost": cost
-            }
-        ]))
+        expect(costs).to(
+            equal(
+                [
+                    {
+                        "type": "night",
+                        "age": night_lift.age,
+                        "date": night_lift.date,
+                        "cost": cost,
+                    },
+                    {
+                        "type": "1jour",
+                        "age": jour_lift.age,
+                        "date": jour_lift.date,
+                        "cost": cost,
+                    },
+                ]
+            )
+        )
 
     def test_calculates_costs_without_date(self) -> None:
         cost = 0
@@ -50,18 +57,14 @@ class TestGetPricesQueryHandler:
 
         costs = get_prices_query_handler.execute(get_prices_query)
 
-        expect(costs).to(equal([
-            {
-                "type": "night",
-                "age": night_lift.age,
-                "cost": cost
-            },
-            {
-                "type": "1jour",
-                "age": jour_lift.age,
-                "cost": cost
-            }
-        ]))
+        expect(costs).to(
+            equal(
+                [
+                    {"type": "night", "age": night_lift.age, "cost": cost},
+                    {"type": "1jour", "age": jour_lift.age, "cost": cost},
+                ]
+            )
+        )
 
     def test_calculates_costs_without_age(self) -> None:
         cost = 0
@@ -77,15 +80,11 @@ class TestGetPricesQueryHandler:
 
         costs = get_prices_query_handler.execute(get_prices_query)
 
-        expect(costs).to(equal([
-            {
-                "type": "night",
-                "date": night_lift.date,
-                "cost": cost
-            },
-            {
-                "type": "1jour",
-                "date": jour_lift.date,
-                "cost": cost
-            }
-        ]))
+        expect(costs).to(
+            equal(
+                [
+                    {"type": "night", "date": night_lift.date, "cost": cost},
+                    {"type": "1jour", "date": jour_lift.date, "cost": cost},
+                ]
+            )
+        )
