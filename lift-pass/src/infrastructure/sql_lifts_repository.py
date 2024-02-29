@@ -40,7 +40,7 @@ class SqlLiftsRepositoryFactory:
     def make(connector: Any = pymysql) -> SqlLiftsRepository:  # type: ignore
         try:
             connection = connector.connect(
-                host="localhost",
+                host="mariadb",
                 user="root",
                 password="mysql",
                 database="lift_pass",

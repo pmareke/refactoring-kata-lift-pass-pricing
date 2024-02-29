@@ -7,21 +7,22 @@ help:  ## Show this help.
 
 .PHONY: test
 test: ## Run tests
-	PYTHONPATH=. poetry run pytest test -ra
+	docker compose run -T --rm lift pytest test -ra
 
 .PHONY: test-coverage
 test-coverage: ## Run tests coverage
-	PYTHONPATH=. poetry run coverage run --branch -m pytest test
-	poetry run coverage html
+	docker compose run --rm lift coverage run --branch -m pytest test
+	docker compose run --rm lift coverage html
+	@echo "You can open the coverage report here: ${PWD}/htmlcov/index.html"
 
 .PHONY: format
 format: ## Run format
-	poetry run black src test
+	docker compose run --rm --no-deps lift black src test
 
 .PHONY: check-format
 check-format: ## Check format
-	poetry run black --check src test
+	docker compose run --rm --no-deps lift black --check src test
 
 .PHONY: check-typing
 check-typing: ## Check typing
-	poetry run mypy src test
+	docker compose run --rm --no-deps lift mypy src test
