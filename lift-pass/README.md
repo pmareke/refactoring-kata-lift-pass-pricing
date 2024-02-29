@@ -1,4 +1,9 @@
+# Requirements
+
+- Docker
+
 # Components
+
 This repository is a work in progress exercise applying **Ports and Adapters** to a weather app.
 
 The app exposes an API endpoint included in the **Delivery** layer, this layer talks
@@ -8,6 +13,7 @@ These command handlers talks with the **Infrastructure** and **Domain** layers a
 the result to the **Delivery** layer again.
 
 # App Layers
+
 - Delivery: API using Flask.
 - Infrastructure: MariaDB repository.
 - Use Cases: Command and Query handlers.
