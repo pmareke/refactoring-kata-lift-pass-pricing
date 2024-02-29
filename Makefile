@@ -13,6 +13,16 @@ local-setup: ## Set up the local environment (e.g. install git hooks)
 test: ## Run tests
 	docker compose -f lift-pass/docker-compose.yml run -T --rm lift pytest test -ra
 
+.PHONY: test-coverage
+test-coverage: ## Run tests coverage
+	docker compose -f lift-pass/docker-compose.yml run --rm lift coverage run --branch -m pytest test
+	docker compose run --rm lift coverage html
+	@echo "You can open the coverage report here: ${PWD}/htmlcov/index.html"
+
+.PHONY: format
+format: ## Run format
+	docker compose  -f lift-pass/docker-compose.yml run --rm --no-deps lift black src test
+
 .PHONY: check-format
 check-format: ## Check format
 	docker compose -f lift-pass/docker-compose.yml run --rm --no-deps lift black --check src test
@@ -22,4 +32,4 @@ check-typing: ## Check typing
 	docker compose -f lift-pass/docker-compose.yml run --rm --no-deps lift mypy src test
 
 .PHONY: pre-commit
-pre-commit: check-format check-typing test ## Run pre-commit checks
+pre-commit: check-format check-typing test ## Run  pre-commit checks
