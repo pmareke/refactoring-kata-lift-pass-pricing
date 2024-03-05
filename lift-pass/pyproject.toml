@@ -17,6 +17,7 @@ mypy = "^1.8.0"
 coverage = "^7.4.3"
 doublex = "^1.9.6.1"
 doublex-expects = "^0.7.1"
+pytest-watch = "^4.2.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.2"

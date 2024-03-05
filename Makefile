@@ -5,6 +5,10 @@ help:  ## Show this help.
 	@grep -E '^\S+:.*?## .*$$' $(firstword $(MAKEFILE_LIST)) | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "%-30s %s\n", $$1, $$2}'
 
+.PHONY: build
+build: ## Build the chatcommands Docker image
+	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose -f lift-pass/docker-compose.yml build
+
 .PHONY: local-setup
 local-setup: ## Set up the local environment (e.g. install git hooks)
 	scripts/local-setup.sh
@@ -12,6 +16,10 @@ local-setup: ## Set up the local environment (e.g. install git hooks)
 .PHONY: test
 test: ## Run tests
 	docker compose -f lift-pass/docker-compose.yml run -T --rm lift pytest test -ra
+
+.PHONY: watch
+watch: ## Watch tests
+	docker compose -f lift-pass/docker-compose.yml run -T --rm lift ptw
 
 .PHONY: test-coverage
 test-coverage: ## Run tests coverage
